@@ -12,30 +12,30 @@ type Country = {
 };
 
 const App = () => {
-  const [countries, setCountries] = useState<string[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
   const [country, setCountry] = useState('NL');
   useEffect(() => {
     const loadCountries = async () => {
       const result = await fetchCountries();
-      const countries = result.map((country: Country) => country.name[0].text)
-      setCountries(countries);
+      setCountries(result);
     };
 
     loadCountries();
   }, []);
 
   const handleChange = (e: any) => {
+    console.log('e', e.target.value);
     setCountry(e.target.value);
   };
   return (
     <div>
       <h1>Public Holidays</h1>
       <div>
-        <select value={country} onChange={handleChange} defaultValue={countries.find((c) => c === 'Netherlands (the)')}>
+        <select value={country} onChange={handleChange}>
           <option value="">Please Select Country</option>
           {countries.map((country, index) => (
-            <option value={country} key={index}>
-              {country}
+            <option value={country.isoCode} key={index}>
+              {country.name[0].text}
             </option>
           ))}
         </select>
